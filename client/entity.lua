@@ -1,6 +1,19 @@
 ECM = exports["ContextMenu"]
 ESX = exports["es_extended"]:getSharedObject()
 
+local isPlayerAllowed = false
+
+-- CreateThread(function()
+--     while (not isPlayerAllowed) do
+--         ESX.TriggerServerCallback("dnz_context:getPlayerGroup", function(group)
+--             if (group == "superadmin" or group == "admin") then
+--                 isPlayerAllowed = true
+--             end
+--         end)
+--         Wait(1000)
+--     end
+-- end)
+
 ECM:Register(function(screenPosition, hitSomething, worldPosition, hitEntity, normalDirection)
     if (not DoesEntityExist(hitEntity) or not IsEntityAnObject(hitEntity)) then
         return
@@ -42,6 +55,22 @@ ECM:Register(function(screenPosition, hitSomething, worldPosition, hitEntity, no
         })
         ESX.ShowNotification("Position copied to clipboard", "success", 2000)
     end)
+
+    -- check if player has owner of object
+
+
+
+    if isPlayerAllowed then
+        -- Repair item with repair action
+        local itemRepair = ECM:AddItem(submenuDebug, "Repair object")
+        ECM:OnActivate(itemRepair, function()
+            SetEntityAsMissionEntity(object, true, true)
+            SetEntityAsNoLongerNeeded(object)
+            SetEntityAsMissionEntity(object, true, true)
+            SetEntityAsNoLongerNeeded(object)
+            ESX.ShowNotification("Entity was repaired", "success", 2000)
+        end)
+    end
     -- gizmo item with gizmo action
     local itemGizmo = ECM:AddItem(submenuDebug, "Moove with gizmo")
     ECM:OnActivate(itemGizmo, function()
