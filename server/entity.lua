@@ -1,5 +1,5 @@
-RegisterServerEvent('dnz_debug:deleteEntity')
-AddEventHandler('dnz_debug:deleteEntity', function(entity)
+RegisterServerEvent('dnz_context:deleteEntity')
+AddEventHandler('dnz_context:deleteEntity', function(entity)
     print("Delete entity event received with entity: " .. entity)
     -- check if entity exists
     if DoesEntityExist(entity) then
